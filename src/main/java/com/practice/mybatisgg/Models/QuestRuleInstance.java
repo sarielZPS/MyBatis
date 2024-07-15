@@ -4,19 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Getter
 @Setter
-public class QuestRule {
-
+public class QuestRuleInstance {
     private String id;
-    private String eventCode;
-    private String name;
+    private String userId;
+    private String questRulesId;
     private int status;
     private Date createdDate;
     private String createdBy;
     private Date updatedDate;
     private String updatedBy;
-
 }

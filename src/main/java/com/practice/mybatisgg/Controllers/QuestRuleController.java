@@ -5,6 +5,7 @@ import com.practice.mybatisgg.Mapper.QuestRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -34,5 +35,10 @@ public class QuestRuleController {
     @PutMapping("/{id}")
     public void updateQuestRuleStatus(@PathVariable String id, @RequestParam int status) {
         questRuleMapper.updateQuestRuleStatus(id, status);
+    }
+
+    @GetMapping("/GetNewQuestRules")
+    public List<QuestRule> getShelvedQuestRules() {
+        return questRuleMapper.selectByStatus(0);
     }
 }
