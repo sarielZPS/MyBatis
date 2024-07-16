@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
 
 @RestController
@@ -23,26 +22,39 @@ public class QuestRuleInstanceController {
     @PostMapping
     public void createQuestRule(@RequestBody QuestRuleInstance questRuleInstance) {
         HashMap<String,QuestRule> questRules = questRuleMapper.selectByStatus(0);
-        if(questRules.containsKey(questRuleInstance.getQuestRuleId()))
-        {
-            if (questRuleInstance.getId() == null || questRuleInstance.getId().isEmpty()) {
-                questRuleInstance.setId(UUID.randomUUID().toString());
+        try{
+            if(questRules.containsKey(questRuleInstance.getQuestRuleId())) {
+                if (questRuleInstance.getId() == null || questRuleInstance.getId().isEmpty()) {
+                    questRuleInstance.setId(UUID.randomUUID().toString());
+                }
+                questRuleInstanceMapper.insertQuestRuleInstance(questRuleInstance);
             }
-            questRuleInstanceMapper.insertQuestRuleInstance(questRuleInstance);
+            else{
+                throw new IllegalArgumentException("只能创建上架的任务");
+            }
+        }catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
         }
-        else{
-            throw new IllegalArgumentException("只能创建上架的任务");
-        }
+
     }
 
-    @PutMapping("/{id}")
-    public void updateQuestRuleStatus(@PathVariable String userId, @RequestParam int status) {
+    @PutMapping("/{userId}")
+    public void updateQuestRuleStatus(@PathVariable("userId") String userId, @RequestParam int status) {
         HashMap<String,QuestRule> questRules = questRuleMapper.selectByStatus(0);
-        //if(containsId(questRules,id))
-        //{
-        //    questRuleInstanceMapper.updateQuestRuleInstanceStatus(id, status);
-        //}
-
+        HashMap<String,QuestRuleInstance> questRuleInstances = questRuleInstanceMapper.selectInstanceByUser(userId);
+        for(QuestRuleInstance questRuleInstance : questRuleInstances.values()) {
+            try {
+                System.out.println(questRuleInstance.getUserId());
+                System.out.println(questRuleInstance.getQuestRuleId());
+                if (questRules.containsKey(questRuleInstance.getQuestRuleId())) {
+                    questRuleInstanceMapper.updateQuestRuleInstanceStatus(questRuleInstance.getId(), status);
+                } else {
+                    throw new IllegalArgumentException("只能更新上架任务的状态");
+                }
+            } catch (IllegalArgumentException e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
     }
 
 }
