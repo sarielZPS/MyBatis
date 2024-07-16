@@ -5,6 +5,7 @@ import com.practice.mybatisgg.Mapper.QuestRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class QuestRuleController {
     }
 
     @GetMapping("/GetNewQuestRules")
-    public List<QuestRule> getShelvedQuestRules() {
+    public HashMap<String,QuestRule> getShelvedQuestRules() {
         return questRuleMapper.selectByStatus(0);
     }
 }

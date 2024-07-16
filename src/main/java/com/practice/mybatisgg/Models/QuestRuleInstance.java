@@ -10,7 +10,7 @@ import java.util.Date;
 public class QuestRuleInstance {
     private String id;
     private String userId;
-    private String questRulesId;
+    private String questRuleId;
     private int status;
     private Date createdDate;
     private String createdBy;
