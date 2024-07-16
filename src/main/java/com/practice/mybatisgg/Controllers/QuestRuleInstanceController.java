@@ -7,7 +7,8 @@ import com.practice.mybatisgg.Models.QuestRuleInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 
 @RestController
@@ -21,8 +22,8 @@ public class QuestRuleInstanceController {
 
     @PostMapping
     public void createQuestRule(@RequestBody QuestRuleInstance questRuleInstance) {
-        List<QuestRule> questRules = questRuleMapper.selectByStatus(0);
-        if(containsId(questRules,questRuleInstance.getId()))
+        HashMap<String,QuestRule> questRules = questRuleMapper.selectByStatus(0);
+        if(questRules.containsKey(questRuleInstance.getQuestRuleId()))
         {
             if (questRuleInstance.getId() == null || questRuleInstance.getId().isEmpty()) {
                 questRuleInstance.setId(UUID.randomUUID().toString());
@@ -34,17 +35,14 @@ public class QuestRuleInstanceController {
         }
     }
 
-    private boolean containsId(List<QuestRule> questRules, String id) {
-        for (QuestRule questRule : questRules) {
-            if(questRule.getId().equals(id))
-                return true;
-        }
-        return false;
-    }
-
     @PutMapping("/{id}")
-    public void updateQuestRuleStatus(@PathVariable String id, @RequestParam int status) {
-        questRuleMapper.updateQuestRuleStatus(id, status);
+    public void updateQuestRuleStatus(@PathVariable String userId, @RequestParam int status) {
+        HashMap<String,QuestRule> questRules = questRuleMapper.selectByStatus(0);
+        //if(containsId(questRules,id))
+        //{
+        //    questRuleInstanceMapper.updateQuestRuleInstanceStatus(id, status);
+        //}
+
     }
 
 }
