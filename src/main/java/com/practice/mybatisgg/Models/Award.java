@@ -9,6 +9,7 @@ import java.util.Date;
 @Setter
 public class Award {
     private String id;
+    private String userId;
     private String awardRuleId;
     private float amount;
     private int awardType;
