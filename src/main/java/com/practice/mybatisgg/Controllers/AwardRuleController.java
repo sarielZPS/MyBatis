@@ -6,6 +6,7 @@ import com.practice.mybatisgg.Models.QuestRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,7 +24,7 @@ public class AwardRuleController {
     }
 
     @GetMapping("/{questRuleId}")
-    public AwardRule getAwardRuleByQuestRule(@PathVariable String questRuleId) {
+    public List<AwardRule> getAwardRuleByQuestRule(@PathVariable String questRuleId) {
         return awardRuleMapper.selectAwardRuleByQuestRule(questRuleId);
     }
 }
