@@ -16,7 +16,7 @@ public class AwardController {
     @Autowired
     private AwardMapper awardMapper;
     @PostMapping
-    public void createQuestRule(@RequestBody Award award) {
+    public void createAward(@RequestBody Award award) {
         if (award.getId() == null || award.getId().isEmpty()) {
             award.setId(UUID.randomUUID().toString());
         }

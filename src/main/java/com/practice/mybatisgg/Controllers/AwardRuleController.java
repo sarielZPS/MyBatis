@@ -2,11 +2,9 @@ package com.practice.mybatisgg.Controllers;
 
 import com.practice.mybatisgg.Mapper.AwardRuleMapper;
 import com.practice.mybatisgg.Models.AwardRule;
+import com.practice.mybatisgg.Models.QuestRule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -17,10 +15,15 @@ public class AwardRuleController {
     private AwardRuleMapper awardRuleMapper;
 
     @PostMapping
-    public void createQuestRule(@RequestBody AwardRule awardRule) {
+    public void createAwardRule(@RequestBody AwardRule awardRule) {
         if (awardRule.getId() == null || awardRule.getId().isEmpty()) {
             awardRule.setId(UUID.randomUUID().toString());
         }
         awardRuleMapper.insertAwardRule(awardRule);
+    }
+
+    @GetMapping("/{questRuleId}")
+    public AwardRule getAwardRuleByQuestRule(@PathVariable String questRuleId) {
+        return awardRuleMapper.selectAwardRuleByQuestRule(questRuleId);
     }
 }
