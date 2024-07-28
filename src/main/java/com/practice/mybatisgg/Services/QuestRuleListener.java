@@ -1,5 +1,7 @@
 package com.practice.mybatisgg.Services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.mybatisgg.Configs.RabbitMQConfig;
 import com.practice.mybatisgg.Controllers.AwardController;
 import com.practice.mybatisgg.Mappers.AwardRuleMapper;
 import com.practice.mybatisgg.Mappers.QuestRuleInstanceMapper;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class QuestRuleListener {
@@ -28,8 +32,15 @@ public class QuestRuleListener {
     @Autowired
     private AwardRuleMapper awardRuleMapper;
 
-    @RabbitListener(queues = "QuestRuleQueue")
-    public void handleTaskUpdateMessage(QuestRuleUpdateMessage message) {
+    private static final Logger logger = LoggerFactory.getLogger(QuestRuleListener.class);
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
+    public void handleTaskUpdateMessage(String jsonMessage) throws Exception {
+        QuestRuleUpdateMessage message = objectMapper.readValue(jsonMessage, QuestRuleUpdateMessage.class);
+        logger.info("Received message: {}", message);
         String userId = message.getUserId();
         int status = message.getStatus();
 

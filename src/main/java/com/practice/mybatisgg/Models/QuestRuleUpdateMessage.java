@@ -3,9 +3,11 @@ package com.practice.mybatisgg.Models;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class QuestRuleUpdateMessage {
+public class QuestRuleUpdateMessage implements Serializable {
     private String userId;
     private int status;
 
