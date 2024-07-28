@@ -15,6 +15,7 @@ import java.util.UUID;
 public class AwardController {
     @Autowired
     private AwardMapper awardMapper;
+
     @PostMapping
     public void createAward(@RequestBody Award award) {
         if (award.getId() == null || award.getId().isEmpty()) {
