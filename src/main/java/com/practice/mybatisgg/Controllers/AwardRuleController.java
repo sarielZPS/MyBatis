@@ -1,8 +1,7 @@
 package com.practice.mybatisgg.Controllers;
 
-import com.practice.mybatisgg.Mapper.AwardRuleMapper;
+import com.practice.mybatisgg.Mappers.AwardRuleMapper;
 import com.practice.mybatisgg.Models.AwardRule;
-import com.practice.mybatisgg.Models.QuestRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

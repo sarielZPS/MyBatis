@@ -1,12 +1,11 @@
 package com.practice.mybatisgg.Controllers;
 
 import com.practice.mybatisgg.Models.QuestRule;
-import com.practice.mybatisgg.Mapper.QuestRuleMapper;
+import com.practice.mybatisgg.Mappers.QuestRuleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 @RestController

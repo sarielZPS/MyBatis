@@ -1,6 +1,6 @@
 package com.practice.mybatisgg.Controllers;
 
-import com.practice.mybatisgg.Mapper.AwardMapper;
+import com.practice.mybatisgg.Mappers.AwardMapper;
 import com.practice.mybatisgg.Models.Award;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

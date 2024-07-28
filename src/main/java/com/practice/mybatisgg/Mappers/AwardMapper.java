@@ -1,4 +1,4 @@
-package com.practice.mybatisgg.Mapper;
+package com.practice.mybatisgg.Mappers;
 
 import com.practice.mybatisgg.Models.Award;
 import org.apache.ibatis.annotations.Insert;

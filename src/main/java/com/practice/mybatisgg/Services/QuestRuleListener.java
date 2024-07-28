@@ -1,5 +1,6 @@
-package com.practice.mybatisgg.Controllers;
+package com.practice.mybatisgg.Services;
 
+import com.practice.mybatisgg.Controllers.AwardController;
 import com.practice.mybatisgg.Mappers.AwardRuleMapper;
 import com.practice.mybatisgg.Mappers.QuestRuleInstanceMapper;
 import com.practice.mybatisgg.Mappers.QuestRuleMapper;
@@ -7,17 +8,17 @@ import com.practice.mybatisgg.Models.Award;
 import com.practice.mybatisgg.Models.AwardRule;
 import com.practice.mybatisgg.Models.QuestRule;
 import com.practice.mybatisgg.Models.QuestRuleInstance;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
-@RestController
-@RequestMapping("/questRuleInstance")
-public class QuestRuleInstanceController {
+@Service
+public class QuestRuleListener {
+
     @Autowired
     private QuestRuleInstanceMapper questRuleInstanceMapper;
 
@@ -26,30 +27,15 @@ public class QuestRuleInstanceController {
 
     @Autowired
     private AwardController awardController;
+
     @Autowired
     private AwardRuleMapper awardRuleMapper;
 
-    @PostMapping
-    public void createQuestRule(@RequestBody QuestRuleInstance questRuleInstance) {
-        HashMap<String,QuestRule> questRules = questRuleMapper.selectByStatus(0);
-        try{
-            if(questRules.containsKey(questRuleInstance.getQuestRuleId())) {
-                if (questRuleInstance.getId() == null || questRuleInstance.getId().isEmpty()) {
-                    questRuleInstance.setId(UUID.randomUUID().toString());
-                }
-                questRuleInstanceMapper.insertQuestRuleInstance(questRuleInstance);
-            }
-            else{
-                throw new IllegalArgumentException("只能创建上架的任务");
-            }
-        }catch (IllegalArgumentException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
+    @RabbitListener(queues = "QuestRuleQueue")
+    public void handleTaskUpdateMessage(QuestRuleUpdateMessage message) {
+        String userId = message.getUserId();
+        int status = message.getStatus();
 
-    }
-
-    @PutMapping("/{userId}")
-    public void updateQuestRuleStatus(@PathVariable("userId") String userId, @RequestParam int status) {
         HashMap<String,QuestRule> questRules = questRuleMapper.selectByStatus(0);
         HashMap<String,QuestRuleInstance> questRuleInstances = questRuleInstanceMapper.selectInstanceByUser(userId);
         for(QuestRuleInstance questRuleInstance : questRuleInstances.values()) {
@@ -86,5 +72,4 @@ public class QuestRuleInstanceController {
         award.setUpdatedBy("Automatic");
         return award;
     }
-
 }

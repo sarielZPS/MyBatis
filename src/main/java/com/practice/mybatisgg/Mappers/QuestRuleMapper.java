@@ -1,10 +1,9 @@
-package com.practice.mybatisgg.Mapper;
+package com.practice.mybatisgg.Mappers;
 
 import com.practice.mybatisgg.Models.QuestRule;
 import org.apache.ibatis.annotations.*;
 
 import java.util.HashMap;
-import java.util.List;
 
 public interface QuestRuleMapper {
     @Insert("INSERT INTO quest_rule(id, event_code, name, status, created_date, created_by, updated_date, updated_by) VALUES(#{id}, #{eventCode}, #{name}, #{status}, NOW(), #{createdBy}, NOW(), #{updatedBy})")

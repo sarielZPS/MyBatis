@@ -1,7 +1,6 @@
-package com.practice.mybatisgg.Mapper;
+package com.practice.mybatisgg.Mappers;
 
 import com.practice.mybatisgg.Models.AwardRule;
-import com.practice.mybatisgg.Models.QuestRule;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
